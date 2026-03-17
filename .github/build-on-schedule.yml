@@ -1,0 +1,14 @@
+name: Trigger docs website build on schedule
+on:
+  schedule:
+    # First Monday of every month at 10:00 CET (09:00 UTC).
+    # Note: GitHub Actions has no timezone support; adjust to 08:00 UTC (0 8 1-7 * 1) during CEST (late Mar–late Oct).
+    - cron: '0 9 1-7 * 1'
+  workflow_dispatch:
+jobs:
+  build:
+    name: Trigger production build in Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger build of sql.clickhouse.com
+        run: curl -X POST ${{ secrets.VERCEL_SQL_BUILD }}
